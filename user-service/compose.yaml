@@ -1,0 +1,44 @@
+services:
+  java-user_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    init: true
+    # env_file: ./.env  # Uncomment if .env file exists
+    ports:
+      - "8080:8080"  # Default Spring Boot port; change if configured differently
+    # depends_on:
+    #   - <external_service>  # Uncomment and specify if external services are added
+    networks:
+      - appnet
+
+# If you add a database or other external service, add it below:
+#  postgres-db:
+#    image: postgres:latest
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_USER: user
+#      POSTGRES_PASSWORD: password
+#      POSTGRES_DB: userdb
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U user"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#    networks:
+#      - appnet
+#
+#  java-user_service:
+#    depends_on:
+#      - postgres-db
+
+networks:
+  appnet:
+    driver: bridge
+
+# Uncomment if you add a database service above
+#volumes:
+#  pgdata:
