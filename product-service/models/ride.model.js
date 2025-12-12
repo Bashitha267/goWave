@@ -14,14 +14,18 @@ const rideShema = new Schema({
        type:String,
    
   },
-  pickup_location:{
-       type:String,
-    required:true
-  },
-  drop_location:{
-       type:String,
-    required:true
-  },
+  pickup_location:[{
+   latitude:{type:String,required:true},
+   longide:{type:String,required:true},
+
+    
+}],
+ drop_location:[{
+   latitude:{type:String,required:true},
+   longide:{type:String,required:true},
+
+    
+}],
   payment:{
     type:Number,
     required:true
@@ -29,7 +33,7 @@ const rideShema = new Schema({
   status:{
     type:String,
     enum:['requested','accepted','ongoing','completed','canceled'],
-    default:['requested']
+    default:'requested'
   },
   created_at:{
     type:Date
@@ -49,7 +53,7 @@ const rideShema = new Schema({
   payment_status:{
     type:String,
     enum:['paid','pending'],
-    default:['pending']
+    default:'pending'
 
   }
   

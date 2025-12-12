@@ -15,6 +15,10 @@ const vehicleSchema = new Schema({
  max_capacity:{
     type:Number,
     required:true
+ },
+ icon:{
+   type:String,
+   required:true
  }
 });
 const vehicle_type = mongoose.model('Vehicle Type', vehicleSchema);

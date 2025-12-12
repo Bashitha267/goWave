@@ -13,3 +13,14 @@ exports.add_Vehicle_type=async (req,res)=>{
         return res.status(400).json({message:err})
     }
 }
+
+exports.get_vehicle_types=async(req,res)=>{
+    try{
+const vehicle_types=await vehicle_type.find();
+    return res.status(200).json({data:vehicle_types})
+    }
+    catch(err){
+        return res.status(400).json({message:err})
+    }
+    
+}
