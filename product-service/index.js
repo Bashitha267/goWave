@@ -20,7 +20,7 @@ app.listen(Port,()=>{
 })
 //routes
 app.get('/',(req,res)=>{
-    res.send(`service is running on ${Port}`)
+    res.send(`Vehicle service running - Jenkins auto deploy test`)
 })
 
 //connect mongodb

@@ -1,0 +1,42 @@
+pipeline{
+    agent any
+    stages{
+        stage("cloning the repo"){
+            steps{
+                git branch: 'main', url: 'https://github.com/Bashitha267/goWave.git'
+            }
+            
+        }
+        stage('Build Docker Image'){
+            steps{
+                sh 'docker build -t bashitha267/vehicle-service'
+            }
+        }
+        stage('Stop Old Controller'){
+            steps{
+                sh 'docker stop bashitha267/vehicle-service||true'
+                sh 'docker rm product-service || true'
+            }
+        }
+        stage('run container'){
+            steps{
+                sh '''
+                    docker run -d -p 4000:4000 \
+                    --name vehicle-service \
+                    -e MONGO_URI="${MONGO_URI}" \
+                    bashitha267/vehicle-service
+                '''
+            }
+
+        }
+    }
+    post{
+        
+        success{
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
+        }
+    }
+}
