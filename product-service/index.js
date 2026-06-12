@@ -20,7 +20,7 @@ app.listen(Port,()=>{
 })
 //routes
 app.get('/',(req,res)=>{
-    res.send(`Product-Service is running `)
+    res.send(`Jenkins auto deploy test`)
 })
 
 //connect mongodb
