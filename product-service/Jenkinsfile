@@ -1,36 +1,45 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage("cloning the repo"){
-            steps{
-                git branch: 'main', url: 'https://github.com/Bashitha267/goWave.git'
+
+    stages {
+
+        stage("cloning the repo") {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/Bashitha267/goWave.git'
             }
-            
         }
-        stage('Build Docker Image'){
-            steps{
+
+        stage('Build Docker Image') {
+            steps {
                 sh 'docker build -t bashitha267/vehicle-service ./product-service'
             }
         }
-        stage('Stop Old Controller'){
-            steps{
-                sh 'docker stop bashitha267/vehicle-service||true'
-                sh 'docker rm product-service || true'
+
+        stage('Stop Old Container') {
+            steps {
+                sh '''
+                    docker stop vehicle-service || true
+                    docker rm vehicle-service || true
+                '''
             }
         }
-        stage('run container'){
-            steps{
+
+        stage('Run Container') {
+            steps {
                 sh '''
+                    docker rm -f vehicle-service || true
+
                     docker run -d -p 4000:4000 \
                     --name vehicle-service \
                     -e MONGO_URI="${MONGO_URI}" \
                     bashitha267/vehicle-service
                 '''
             }
-
         }
-        stage('clean old docker images'){
-            steps{
+
+        stage('Clean old Docker images') {
+            steps {
                 sh '''
                     docker image prune -f
                     docker container prune -f
@@ -38,13 +47,13 @@ pipeline{
             }
         }
     }
-    post{
-        
-        success{
-            echo "========pipeline executed successfully ========"
+
+    post {
+        success {
+            echo "======== pipeline executed successfully ========"
         }
-        failure{
-            echo "========pipeline execution failed========"
+        failure {
+            echo "======== pipeline execution failed ========"
         }
     }
 }
