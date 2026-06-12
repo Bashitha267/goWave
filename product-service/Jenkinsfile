@@ -9,7 +9,7 @@ pipeline{
         }
         stage('Build Docker Image'){
             steps{
-                sh 'docker build -t bashitha267/vehicle-service'
+                sh 'docker build -t bashitha267/vehicle-service ./product-service'
             }
         }
         stage('Stop Old Controller'){
